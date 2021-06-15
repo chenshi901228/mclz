@@ -1,7 +1,15 @@
 <template>
   <div class="staffCheck">
     <h1>从业人员晨检记录表:</h1>
-    <el-table :data="currentData" height="74%" size="small">
+    <el-table
+      :data="currentData"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.6)"
+      height="74%"
+      size="small"
+    >
       <el-table-column prop="id" label="序号" width="80" align="center">
       </el-table-column>
       <el-table-column prop="name" label="员工姓名" width="80" align="center">
@@ -153,6 +161,7 @@
     </div>
     <div class="mark" :style="`display:${markShow ? 'block' : 'none'}`">
       <div>
+        <h1>从业人员晨检记录添加</h1>
         <el-table :data="[editData]" size="small">
           <el-table-column prop="id" label="序号" width="80" align="center">
           </el-table-column>
@@ -246,6 +255,8 @@ const { mapState, mapMutations, mapGetters } =
 export default {
   data() {
     return {
+      // 表格加载动画
+      loading: true,
       // 当前编辑行index
       editIndex: null,
       // 当前编辑行内容
@@ -259,13 +270,21 @@ export default {
     ...mapGetters(["currentData"]),
   },
   mounted() {
-    this.init();
+    setTimeout(() => {
+      this.loading = false;
+      this.init();
+    }, 1000);
   },
   methods: {
     ...mapMutations(["init", "edit", "addNew", "deleteOne"]),
     // 下拉选项
-    selectChange(value) {
-      console.log(value);
+    selectChange() {
+      this.initData.rows = [];
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+        this.init();
+      }, 1000);
     },
     confirmFunc(
       { tips = "", confirmMsg = "", cancelMsg = "" },
@@ -302,7 +321,7 @@ export default {
           {
             tips: "是否保存并退出当前修改",
             confirmMsg: "保存修改成功",
-            cancelMsg:"继续修改"
+            cancelMsg: "继续修改",
           },
           () => {
             this.edit(this.editData);
@@ -503,6 +522,12 @@ export default {
     left: 0;
     top: 0;
     background-color: rgba(11, 71, 113, 0.9);
+    h1{
+      font-size: 20px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 10px;
+    }
     & > div {
       width: 90%;
       padding: 20px;

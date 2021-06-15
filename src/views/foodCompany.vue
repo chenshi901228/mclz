@@ -17,7 +17,16 @@
       </el-select>
       <h1>{{ selectValue }}表</h1>
     </div>
-    <el-table :data="currentData" height="76%" size="small">
+    <el-table
+      v-if="selectValue == '食品采购信息'"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.6)"
+      :data="currentData"
+      height="76%"
+      size="small"
+    >
       <el-table-column prop="id" label="食品编号" width="80" align="center">
       </el-table-column>
       <el-table-column prop="name" label="食品名称" width="120" align="center">
@@ -126,6 +135,143 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-table
+      v-else
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.6)"
+      :data="currentData"
+      height="76%"
+      size="small"
+    >
+      <el-table-column prop="id" label="样品编号" width="80" align="center">
+      </el-table-column>
+      <el-table-column prop="name" label="样品名称" width="120" align="center">
+        <template slot-scope="{ row, $index }">
+          <el-input
+            v-if="$index == editIndex"
+            v-model="editData.name"
+          ></el-input>
+          <span v-else>{{ row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="size" label="样品规格" width="80" align="center">
+        <template slot-scope="{ row, $index }">
+          <el-input
+            v-if="$index == editIndex"
+            v-model="editData.size"
+          ></el-input>
+          <span v-else>{{ row.size }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="number"
+        label="样品数量"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="{ row, $index }">
+          <el-input
+            v-if="$index == editIndex"
+            v-model="editData.number"
+          ></el-input>
+          <span v-else>{{ row.number }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="providerName" label="供方名称" align="center">
+        <template slot-scope="{ row, $index }">
+          <el-input
+            v-if="$index == editIndex"
+            v-model="editData.providerName"
+            :autosize="{ minRows: 1 }"
+            type="textarea"
+          ></el-input>
+          <span v-else>{{ row.providerName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="providerAddress" label="供方地址" align="center">
+        <template slot-scope="{ row, $index }">
+          <el-input
+            v-if="$index == editIndex"
+            v-model="editData.providerAddress"
+            :autosize="{ minRows: 1 }"
+            type="textarea"
+          ></el-input>
+          <span v-else>{{ row.providerAddress }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="providerPhone"
+        label="供方联系方式"
+        width="130"
+        align="center"
+      >
+        <template slot-scope="{ row, $index }">
+          <el-input
+            v-if="$index == editIndex"
+            v-model="editData.providerPhone"
+          ></el-input>
+          <span v-else>{{ row.providerPhone }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="samplingDate"
+        label="采样日期"
+        width="120"
+        align="center"
+      >
+        <template slot-scope="{ row, $index }">
+          <el-date-picker
+            v-if="$index == editIndex"
+            v-model="editData.samplingDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+            class="dateChoose"
+          >
+          </el-date-picker>
+          <span v-else>{{ row.samplingDate }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="samplingPeople"
+        label="采样人"
+        width="130"
+        align="center"
+      >
+        <template slot-scope="{ row, $index }">
+          <el-input
+            v-if="$index == editIndex"
+            v-model="editData.samplingPeople"
+          ></el-input>
+          <span v-else>{{ row.samplingPeople }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="160" align="center">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="
+              editIndex == scope.$index
+                ? confirmEdit()
+                : handleEdit(scope.$index, scope.row)
+            "
+            >{{ editIndex == scope.$index ? "修改" : "编辑" }}</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="
+              editIndex == scope.$index
+                ? cancelEdit()
+                : handleDelete(scope.$index, scope.row)
+            "
+            >{{ editIndex == scope.$index ? "取消" : "删除" }}</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
     <el-button @click="newDataBtn" class="newDataBtn" size="mini"
       >+新增</el-button
     >
@@ -133,17 +279,22 @@
       <el-pagination
         @current-change="pageChange"
         @size-change="sizeChange"
-        :current-page="purchaseData.currentPage"
+        :current-page="initData.currentPage"
         :page-sizes="[5, 10, 20, 50]"
-        :page-size="purchaseData.pageSize"
+        :page-size="initData.pageSize"
         layout="total, sizes, prev, pager, next"
-        :total="purchaseData.total"
+        :total="initData.total"
       >
       </el-pagination>
     </div>
     <div class="mark" :style="`display:${markShow ? 'block' : 'none'}`">
       <div>
-        <el-table :data="[editData]" size="small">
+        <h1>{{ selectValue }}添加</h1>
+        <el-table
+          v-if="selectValue == '食品采购信息'"
+          :data="[editData]"
+          size="small"
+        >
           <el-table-column prop="id" label="食品编号" width="80" align="center">
           </el-table-column>
           <el-table-column
@@ -207,6 +358,83 @@
             </el-date-picker>
           </el-table-column>
         </el-table>
+        <el-table v-else :data="[editData]" size="small">
+          <el-table-column prop="id" label="样品编号" width="80" align="center">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="样品名称"
+            width="120"
+            align="center"
+          >
+            <el-input v-model="editData.name"></el-input>
+          </el-table-column>
+          <el-table-column
+            prop="size"
+            label="样品规格"
+            width="80"
+            align="center"
+          >
+            <el-input v-model="editData.size"></el-input>
+          </el-table-column>
+          <el-table-column
+            prop="number"
+            label="样品数量"
+            width="100"
+            align="center"
+          >
+            <el-input v-model="editData.number"></el-input>
+          </el-table-column>
+          <el-table-column prop="providerName" label="供方名称" align="center">
+            <el-input
+              v-model="editData.providerName"
+              :autosize="{ minRows: 1 }"
+              type="textarea"
+            ></el-input>
+          </el-table-column>
+          <el-table-column
+            prop="providerAddress"
+            label="供方地址"
+            align="center"
+          >
+            <el-input
+              v-model="editData.providerAddress"
+              :autosize="{ minRows: 1 }"
+              type="textarea"
+            ></el-input>
+          </el-table-column>
+          <el-table-column
+            prop="providerPhone"
+            label="供方联系方式"
+            width="130"
+            align="center"
+          >
+            <el-input v-model="editData.providerPhone"></el-input>
+          </el-table-column>
+          <el-table-column
+            prop="samplingDate"
+            label="采样日期"
+            width="120"
+            align="center"
+          >
+            <el-date-picker
+              v-model="editData.samplingDate"
+              type="date"
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期"
+              class="dateChoose"
+            >
+            </el-date-picker>
+          </el-table-column>
+          <el-table-column
+            prop="samplingPeople"
+            label="采样人"
+            width="130"
+            align="center"
+          >
+            <el-input v-model="editData.samplingPeople"></el-input>
+          </el-table-column>
+        </el-table>
         <el-button @click="newConfirm" type="primary" size="mini"
           >新增</el-button
         >
@@ -225,6 +453,7 @@ const { mapState, mapMutations, mapGetters } =
 export default {
   data() {
     return {
+      // 下拉框
       selectValue: "食品采购信息",
       selectOptions: [
         {
@@ -236,6 +465,8 @@ export default {
           value: "食品留样信息",
         },
       ],
+      // 表格加载动画
+      loading: true,
       // 当前编辑行index
       editIndex: null,
       // 当前编辑行内容
@@ -245,18 +476,25 @@ export default {
     };
   },
   computed: {
-    ...mapState(["purchaseData"]),
+    ...mapState(["initData"]),
     ...mapGetters(["currentData"]),
   },
   mounted() {
-    this.init();
+    setTimeout(() => {
+      this.loading = false;
+      this.init(this.selectValue);
+    }, 1000);
   },
   methods: {
     ...mapMutations(["init", "edit", "addNew", "deleteOne"]),
     // 下拉选项
     selectChange(value) {
-      console.log(value);
-      this.init();
+      this.initData.rows = [];
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+        this.init(value);
+      }, 1000);
     },
     confirmFunc(
       { tips = "", confirmMsg = "", cancelMsg = "" },
@@ -390,13 +628,13 @@ export default {
     pageChange(value) {
       this.editData = {};
       this.editIndex = null;
-      this.purchaseData.currentPage = value;
+      this.initData.currentPage = value;
     },
     // 每页条数
     sizeChange(value) {
       this.editData = {};
       this.editIndex = null;
-      this.purchaseData.pageSize = value;
+      this.initData.pageSize = value;
     },
   },
 };
@@ -442,6 +680,9 @@ export default {
     width: 100%;
     border-top-right-radius: 4px;
     background-color: @bgColor;
+    .el-table__empty-text {
+      color: #fff;
+    }
     .dateChoose {
       width: 100%;
       input {
@@ -512,6 +753,12 @@ export default {
     left: 0;
     top: 0;
     background-color: rgba(11, 71, 113, 0.9);
+    h1{
+      font-size: 20px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 10px;
+    }
     & > div {
       width: 90%;
       padding: 20px;
