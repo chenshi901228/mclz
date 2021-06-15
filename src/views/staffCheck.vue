@@ -15,6 +15,20 @@
       </el-table-column>
       <el-table-column label="晨检内容" align="center">
         <el-table-column
+          prop="temperature"
+          label="体温检测°C"
+          width="90"
+          align="center"
+        >
+          <template slot-scope="{ row, $index }">
+            <el-input
+              v-if="$index == editIndex"
+              v-model="editData.temperature"
+            ></el-input>
+            <span v-else>{{ row.temperature }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="clothing"
           label="衣帽整洁"
           width="80"
@@ -151,6 +165,14 @@
             <el-input v-model="editData.name"></el-input>
           </el-table-column>
           <el-table-column label="晨检内容" align="center">
+            <el-table-column
+              prop="temperature"
+              label="体温检测°C"
+              width="90"
+              align="center"
+            >
+              <el-input v-model="editData.temperature"></el-input>
+            </el-table-column>
             <el-table-column
               prop="clothing"
               label="衣帽整洁"
@@ -375,10 +397,14 @@ export default {
     },
     // 翻页
     pageChange(value) {
+      this.editData = {};
+      this.editIndex = null;
       this.staffCheckData.currentPage = value;
     },
     // 每页条数
     sizeChange(value) {
+      this.editData = {};
+      this.editIndex = null;
       this.staffCheckData.pageSize = value;
     },
   },

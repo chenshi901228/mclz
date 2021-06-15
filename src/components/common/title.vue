@@ -10,7 +10,7 @@ export default {
 </script>
 <style lang="less" scoped>
 ._title {
-  width: 100%;
+  // width: 100%;
   p {
     font-weight: 700;
     color: #16d0ff;

@@ -32,6 +32,8 @@
 export default {
   data() {
     return {
+            // successColor: "#67C23A", //正常数据颜色
+      warningColor: "#F56C6C", //预警数据颜色
       radio1:'今日',
       warningType: "",
       options: [
@@ -80,14 +82,19 @@ export default {
       for (let i = 0; i < 100; i++) {
         config.data.push([
           "2021-05-23",
-          "12345678912223",
+         `1231111${i}`,
           "和源餐饮",
           i,
           "西兰花",
           "四季山",
-          "1.0%",
+          i % 2 == 0
+              ? `1.0%`
+              : `11.0%`,
           "<10.0%",
-          "合格",
+        
+           i % 2 == 0
+              ? `<span >合格</span>`
+              : `<span style='color:${this.warningColor}'>不合格</span>`,
           "李丽萍",
         ]);
       }

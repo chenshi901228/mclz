@@ -30,6 +30,7 @@ export default {
                 data.push({
                     id: i,
                     name: "王小虎" + i,
+                    temperature:"36.5",
                     clothing: "整洁",
                     hygiene: "良好",
                     health: "健康",

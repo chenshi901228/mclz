@@ -159,7 +159,7 @@ export default {
       companyInfo: {
         companyCode: require("../assets/companyCode.jpg"),
         name: "高新区中心食堂",
-        level: "特级",
+        level: "A级",
         exit: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. In, velit?",
         licenceList: [
           {
@@ -174,6 +174,7 @@ export default {
           },
           { name: "高新区中心食堂2", url: require("../assets/foodex2.jpeg") },
           { name: "高新区中心食堂3", url: require("../assets/foodex3.jpeg") },
+          
         ],
       },
       // 企业信息表单
@@ -339,6 +340,7 @@ export default {
     background-color: rgba(11, 71, 113, 0.6);
     padding: 20px;
     position: relative;
+    overflow-y: auto;
     img {
       width: 100px;
       height: 100px;
@@ -371,6 +373,7 @@ export default {
     ul {
       width: 100%;
       height: 100%;
+      overflow-y: auto;
       li {
         display: inline-block;
         margin: 10px 0 0 10px;

@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="useCheckChart">
-        <dv-charts style="width: 100%; height: 160px" :option="option" />
+        <dv-charts style="width: 100%; height: 100%" :option="option" />
       </div>
       <div class="useCheckList">
         <dv-scroll-board :config="config" style="width: 100%; height: 100%" />
@@ -57,7 +57,7 @@
     <div class="highDetection">
       <div class="title">
         <titleComponent title="高温检测数据" />
-        <div style="width: 60%; display: flex; justify-content: end">
+        <div style="display: flex">
           <span style="width: 60px; color: #53d1f7; font-size: 14px"
             >筛选：</span
           >
@@ -85,7 +85,7 @@
       <div class="uvc">
         <div class="title">
           <titleComponent title="紫外线检测数据" />
-          <div style="width: 60%; display: flex; justify-content: end">
+          <div style="display: flex">
             <span style="width: 60px; color: #53d1f7; font-size: 14px"
               >筛选：</span
             >
@@ -115,7 +115,7 @@
       <div class="rat">
         <div class="title">
           <titleComponent title="挡鼠板检测数据" />
-          <div style="width: 60%; display: flex; justify-content: end">
+          <div style="display: flex">
             <span style="width: 60px; color: #53d1f7; font-size: 14px"
               >筛选：</span
             >
@@ -197,6 +197,7 @@ export default {
         oddRowBGC: "rgba(11, 71, 113, 0.7)",
         evenRowBGC: "rgba(11, 71, 113, 0.4)",
         headerHeight: 20,
+        waitTime:3000,
         align: ["left", "left", "center"],
       },
       //   左侧消毒设备监控下拉框值
@@ -255,7 +256,8 @@ export default {
         headerBGC: "rgba(11, 71, 113, 0.8)",
         oddRowBGC: "rgba(11, 71, 113, 0.7)",
         evenRowBGC: "rgba(11, 71, 113, 0.4)",
-        headerHeight: 12,
+        headerHeight: 20,
+        waitTime:3000,
         columnWidth: [120, 110, 110, 110, 120, 80],
         rowNum: 12,
         align: ["left", "left", "left", "left", "center", "center"],
@@ -295,6 +297,7 @@ export default {
         headerHeight: 20,
         columnWidth: [110, 100, 100],
         rowNum: 10,
+        waitTime:3000,
         align: ["left", "left", "center"],
       },
 
@@ -328,6 +331,7 @@ export default {
         headerHeight: 20,
         columnWidth: [110, 100, 100],
         rowNum: 10,
+        waitTime:3000,
         align: ["left", "left", "center"],
       },
     };
@@ -436,8 +440,13 @@ export default {
   & > div {
     height: 100%;
     // border: 1px solid red;
+    &>div{
+      width: 100%;
+    }
   }
   /deep/.title {
+    display: flex;
+    justify-content: space-between;
     .el-input {
       .el-input__inner {
         background-color: transparent;
@@ -471,8 +480,8 @@ export default {
       background-color: rgba(11, 71, 113, 0.4);
       box-shadow: 0 0 6px 0px #08406c inset;
       border-radius: 2px;
-      display: flex;
-      justify-content: space-between;
+      // display: flex;
+      // justify-content: space-between;
     }
     .number {
       display: flex;
@@ -491,11 +500,12 @@ export default {
       }
     }
     .useCheckChart {
+      height: 34%;
       background-color: rgba(11, 71, 113, 0.4);
     }
     /deep/.useCheckList {
       width: 100%;
-      height: 50%;
+      height: 40%;
       background-color: rgba(11, 71, 113, 0.4);
       .header {
         font-size: 14px;
@@ -508,7 +518,7 @@ export default {
     padding: 0 10px;
     background-color: rgba(11, 71, 113, 0.6);
     .title {
-      display: flex;
+      // display: flex;
       line-height: 30px;
     }
     /deep/.highDetectionList {
@@ -527,7 +537,7 @@ export default {
       height: 50%;
     }
     .title {
-      display: flex;
+      // display: flex;
       line-height: 30px;
     }
     /deep/.uvcList {

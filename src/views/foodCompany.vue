@@ -388,10 +388,14 @@ export default {
     },
     // 翻页
     pageChange(value) {
+      this.editData = {};
+      this.editIndex = null;
       this.purchaseData.currentPage = value;
     },
     // 每页条数
     sizeChange(value) {
+      this.editData = {};
+      this.editIndex = null;
       this.purchaseData.pageSize = value;
     },
   },

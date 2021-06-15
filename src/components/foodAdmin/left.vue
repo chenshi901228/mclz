@@ -16,7 +16,7 @@
       <div class="num-boxs">
         <div v-for="item in List" :key="item.title" style="">
           <dv-border-box-8>
-            <p class="num">{{ item.number }}</p>
+            <p :class="item.title=='不合格数'?'num warningColor':'num'" >{{ item.number }}</p>
             <p class="text">{{ item.title }}</p>
           </dv-border-box-8>
         </div>
@@ -90,6 +90,7 @@
 export default {
   data() {
     return {
+       warningColor: "#F56C6C", //预警数据颜色
       radio1: "今日",
        radio2: "今日",
         radio3: "今日",
@@ -204,6 +205,7 @@ methods:{
     onchart(){
         let titletext=this.warningType
  this.myChart.setOption({
+    color: [ "#F56C6C","#67C23A"],
     title: {
         text: titletext,
         // subtext: ,
@@ -624,6 +626,9 @@ methods:{
     justify-content: center;
     flex-flow: column;
     display: flex;
+  }
+  .num-boxs > div .warningColor.num{
+    color:#F56C6C;
   }
 }
 </style>

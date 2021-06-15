@@ -29,7 +29,7 @@ export default {
             for (let i = 0; i < 26; i++) {
                 data.push({
                     id: i,
-                    imgUrl: "https://picsum.photos/500/500?random=" + (i + 1),
+                    imgUrl: "http://219.139.195.18:7000/mnt/rec/image_2020-04-15/c0abf19b-2070-4518-85de-503a6bb22112.JPG" ,
                     name: "张三" + i,
                     company: "高新区大锅饭食堂锅饭食堂",
                     validDate: "2012-02-02"

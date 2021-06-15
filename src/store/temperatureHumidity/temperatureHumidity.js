@@ -75,13 +75,13 @@ export default {
         }],
         //温度图表配置项
         temperature: {
-            title: {
-                text: "温度",
-                style: {
-                    fill: "#fff",
-                },
-                offset: [0, 130],
-            },
+            // title: {
+            //     text: "温度",
+            //     style: {
+            //         fill: "#fff",
+            //     },
+            //     offset: [0, 130],
+            // },
             color: ["#16d0ff"],
             series: [{
                 type: "gauge",
@@ -112,13 +112,13 @@ export default {
         },
         // 湿度图表配置项
         humidity: {
-            title: {
-                text: "湿度",
-                style: {
-                    fill: "#fff",
-                },
-                offset: [0, 130],
-            },
+            // title: {
+            //     text: "湿度",
+            //     style: {
+            //         fill: "#fff",
+            //     },
+            //     offset: [0, 130],
+            // },
             color: ["#16d0ff"],
             series: [{
                 type: "gauge",

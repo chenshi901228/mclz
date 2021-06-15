@@ -168,6 +168,9 @@ export default {
                     ['和源餐饮', '027-87915266', '未带口罩', '未处理', '2021-06-14 13:22',],
                 ],
             },
+            mapList: [
+                [114.357674, 30.558942], [114.337674, 30.521942], [114.357674, 30.535942], [114.327674, 30.545942]
+            ]
         }
     },
     mounted() {
@@ -188,25 +191,24 @@ export default {
                 zoom: 13,
                 mapStyle: "amap://styles/blue",
             });
-            var marker = new AMap.Marker({
-                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-                position: [114.347674, 30.531942]
-            });
-            marker.setLabel({
-                offset: new AMap.Pixel(20, 20),
-                content: "和源餐饮1"
-            });
-            map.plugin(['AMap.Scale', 'AMap.ToolBar'], function () {
-                map.addControl(new AMap.Scale());     // 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
-                map.addControl(new AMap.ToolBar());   // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
-                map.add(marker);
+            let list = this.mapList
 
-            });
-
-            // let citysearch = new AMap.CitySearch();
-
+            let infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
+            for (let i = 0; i < list.length; i++) {
+                let marker = new AMap.Marker({
+                    position: list[i],
+                    map: map,
+                });
+                marker.content = '和源餐饮' + (i + 1);
+                marker.on('click', markerClick);
+                marker.emit('click', { target: marker });
+            }
+            function markerClick(e) {
+                infoWindow.setContent(e.target.content);
+                infoWindow.open(map, e.target.getPosition());
+            }
+            map.setFitView();
         },
-
         scroll() {
             this.animate = true;
             setTimeout(() => {
@@ -281,7 +283,6 @@ export default {
                         itemStyle: {
                             color: 'rgb(255, 70, 131)'
                         },
-
                         areaStyle: {
                             color: this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                                 offset: 0,
@@ -545,12 +546,13 @@ export default {
     }
 }
 #box {
-    width: 90%;
+    width: 100%;
     height: 32px;
     overflow: hidden;
     padding-left: 30px;
-    margin: 0 auto;
     color: #4cc6d5;
+    background: rgba(16, 32, 49, 0.5);
+    box-sizing: border-box;
 }
 .anim {
     transition: all 0.5s;

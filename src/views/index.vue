@@ -1,7 +1,7 @@
 <template>
     <div class="index">
         <!-- <el-header> -->
-        <di class="index_header">
+        <div class="index_header">
             <div class="header_bar">
                 <div class="header_logo">
                     <p>明厨亮灶互联网监管平台</p>
@@ -19,7 +19,7 @@
                     <p>{{ nowDate}}</p>
                 </div>
             </div>
-        </di>
+        </div>
         <!-- <el-main> -->
         <div class="index_body">
             <router-view />
@@ -83,7 +83,7 @@ export default {
                     roles: ["admin", "company"],
                 },
                 {
-                    title: "综合设备监控",
+                    title: "物联监测",
                     url: "/disinfectionCheck",
                     roles: ["admin", "company"],
                 },
@@ -167,19 +167,20 @@ export default {
 <style lang="less" scoped>
 .index {
     height: 100%;
+
     background: url("~@/assets/bg001.jpg") no-repeat center;
     display: flex;
     flex-direction: column;
     .index_body {
+        background-color: rgba(16, 32, 49, 0.5);
         height: 0;
         flex: 1;
     }
 }
 .index_header {
     padding: 10px 40px 0;
-
     color: #fff;
-    background: rgba(76, 198, 213, 0.3);
+    background: rgba(16, 32, 49, 0.5);
     .header_bar {
         padding: 6px 0;
         border-bottom: 2px solid rgba(36, 81, 151, 0.7);

@@ -110,7 +110,7 @@ const router = new Router({
                     path: "/disinfectionCheck",
                     name: "disinfectionCheck",
                     meta: {
-                        title: "综合设备监控",
+                        title: "物联监测",
                         power: ['company', 'admin'],
 
                     },
